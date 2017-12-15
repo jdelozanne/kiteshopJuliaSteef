@@ -99,7 +99,7 @@ public class KlantenController {
 		klant.setBezoekAdres(newAdres);
 		klantenDao.save(klant);
 		System.out.println(klant);
-		return "home/index";
+		return "redirect:/";
 	}
 	
 	/*
