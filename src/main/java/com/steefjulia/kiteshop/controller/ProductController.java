@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -31,5 +32,14 @@ public class ProductController {
         model.addAttribute(new Product());
         model.addAttribute("products", productdao.findAll());
         return "products/productList";
+    }
+    
+    @RequestMapping(value = "productList", method = RequestMethod.POST)
+    public String processAddProductForm() {
+       
+            //productdao.add(cheeseId);
+        
+
+        return "home/index";
     }
 }

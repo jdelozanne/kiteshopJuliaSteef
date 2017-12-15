@@ -10,23 +10,25 @@
     </head>
     <body>
         <p th:unless="${products} and ${products.size()}">No products</p>
-        <div>
+        
             <table class="table">
-            
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>In Stock</th>
-            </tr>   
-            <tr th:each="product : ${products}">
+
+                <tr>
+                    <th>Select</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>In Stock</th>
+                </tr>   
+                <tr th:each="product : ${products}">
+                 <td><input type="checkbox" th:value="${product.productID}"/></td>   
                 <td th:text="${product.naam}"/>
                 <td th:text="${product.prijs}"/>
                 <td th:text="${product.voorraad}"/>
 
             </tr>
-
+            
         </table>
 
-        </div>
-    </body>
+        
+</body>
 </html>
