@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+
+
+<form method="post" style="max-width:600px;" th:object="${klant}">
+    <div class="form-group">
+        <label th:for="voornaam">Voornaam</label>
+        <input class="form-control" th:field="*{voornaam}" />
+        <span th:errors="*{voornaam}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="tussenvoegsel">Tussenvoegsel</label>
+        <input class="form-control" th:field="*{tussenvoegsel}" />
+        <span th:errors="*{tussenvoegsel}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="achternaam">Achternaam</label>
+        <input class="form-control" th:field="*{achternaam}" />
+        <span th:errors="*{achternaam}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="email">E-mail</label>
+        <input class="form-control" th:field="*{email}" />
+        <span th:errors="*{email}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="telefoonnummer">Telefoonnummer</label>
+        <input class="form-control" th:field="*{telefoonnummer}" />
+        <span th:errors="*{telefoonnummer}" class="error"></span>
+    </div>
+
+   
+
+    <input type="submit" value="Registreer" />
+</form>
+
+</body>
+</html>
