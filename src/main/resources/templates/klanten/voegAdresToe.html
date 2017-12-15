@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"/>
+        <title th:text="${titleIsTheTitleWeGive}"></title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </head>
+<body class="container">
+<h1 th:text="${title}">Default Title</h1>
+
+
+
+<form method="post" style="max-width:600px;" th:object="${adres}">
+    <div class="form-group">
+        <label th:for="straatnaam">Straatnaam</label>
+        <input class="form-control" th:field="*{straatnaam}" />
+        <span th:errors="*{straatnaam}" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label th:for="huisnummer">Huisnummer</label>
+        <input class="form-control" th:field="*{huisnummer}" />
+        <span th:errors="*{huisnummer}" class="error"></span>
+    </div>
+       <div class="form-group">
+        <label th:for="toevoeging">Toevoeging</label>
+        <input class="form-control" th:field="*{toevoeging}" />
+        <span th:errors="*{toevoeging}" class="error"></span>
+    </div>
+       <div class="form-group">
+        <label th:for="postcode">Postcode</label>
+        <input class="form-control" th:field="*{postcode}" />
+        <span th:errors="*{postcode}" class="error"></span>
+    </div>
+       <div class="form-group">
+        <label th:for="woonplaats">Woonplaats</label>
+        <input class="form-control" th:field="*{woonplaats}" />
+        <span th:errors="*{woonplaats}" class="error"></span>
+    </div>
+
+
+   
+
+    <input type="submit" value="Registreer" />
+</form>
+
+</body>
+</html>
