@@ -20,16 +20,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author julia
  */
 @Controller
-@RequestMapping("home/products")
+@RequestMapping("products")
 public class ProductController {
 
     @Autowired
     private ProductDao productdao;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @RequestMapping(value = "productList", method = RequestMethod.GET)
     public String showAllProducts(Model model) {
         model.addAttribute(new Product());
         model.addAttribute("products", productdao.findAll());
-        return "home/products";
+        return "products/productList";
     }
 }
