@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"/>
+        <title th:text="${titleIsTheTitleWeGive}">Welcome to the Kiteshop</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </head>
+    <body>
+        <p th:unless="${products} and ${products.size()}">No products</p>
+        <div>
+            <table class="table">
+            
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>In Stock</th>
+            </tr>   
+            <tr th:each="product : ${products}">
+                <td th:text="${product.naam}"/>
+                <td th:text="${product.prijs}"/>
+                <td th:text="${product.voorraad}"/>
+
+            </tr>
+
+        </table>
+
+        </div>
+    </body>
+</html>
