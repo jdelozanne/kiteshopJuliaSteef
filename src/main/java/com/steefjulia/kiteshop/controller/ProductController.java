@@ -7,11 +7,20 @@ package com.steefjulia.kiteshop.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
+import com.steefjulia.kiteshop.model.Klant;
 import com.steefjulia.kiteshop.model.Product;
 import com.steefjulia.kiteshop.model.data.ProductDao;
+
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,11 +44,23 @@ public class ProductController {
     }
     
     @RequestMapping(value = "productList", method = RequestMethod.POST)
-    public String processAddProductForm() {
+    public String processAddProductForm(@ModelAttribute @Valid Product newProduct,
+			Errors errors, Model model, HttpServletRequest request) {
        
-            //productdao.add(cheeseId);
+    	System.out.println(newProduct);
+    	HttpSession session = request.getSession();
+		session.setAttribute("product", newProduct);
+    	
+	
         
 
-        return "home/index";
+      return "redirect:/products/productPagina";
+    }
+    
+    @RequestMapping(value = "productPagina", method = RequestMethod.GET)
+    public String showProduct(Model model) {
+        model.addAttribute(new Product());
+        model.addAttribute("products", productdao.findAll());
+        return "products/productPagina";
     }
 }
