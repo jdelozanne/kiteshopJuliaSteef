@@ -49,8 +49,8 @@ public class KlantenController {
 		
 		if (errors.hasErrors()) {
 			model.addAttribute("title", "Registreer u nu");
-			model.addAttribute(new Klant());
-			model.addAttribute(new Adres());
+			model.addAttribute(errors);
+		
 			
 			return "klanten/registreer";
 		}
