@@ -17,12 +17,12 @@
             <div class="form-group">
                 <label th:for="username">username</label>
                 <input class="form-control" th:field="*{username}" />
-                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Age Error</span>
+                <span th:errors="*{username}" class="error"></span>
             </div>
             <div class="form-group">
                 <label th:for="password">Password</label>
                 <input class="form-control" th:field="*{password}" />
-                            
+                   <span th:errors="*{password}" class="error"></span>         
             </div>
             <input type="submit" value="Login" />      
         </form>

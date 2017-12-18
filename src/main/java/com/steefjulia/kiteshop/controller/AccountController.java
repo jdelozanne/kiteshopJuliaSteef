@@ -35,16 +35,16 @@ public class AccountController {
     public String showLoginForm(Model model) {
         model.addAttribute("title", "Login here");
         model.addAttribute(new Account());
-
         return "home/login";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processLoginForm(@ModelAttribute @Valid Account newAccount, Model model, BindingResult bindingResult, HttpServletRequest request) {
+    public String processLoginForm(@ModelAttribute @Valid Account newAccount, Model model, Errors errors, HttpServletRequest request) {
 
-        if (bindingResult.hasErrors()) {
+        if (errors.hasErrors()) {
+            model.addAttribute(errors);
             model.addAttribute("title", "Login here");
-
+            model.addAttribute(new Account());
             return "login";
         }
 
@@ -66,8 +66,8 @@ public class AccountController {
         model.addAttribute("title", "Login here");
         model.addAttribute(new Account());
         HttpSession session = request.getSession();
-       
-        model.addAttribute("account",session.getAttribute("account"));
+
+        model.addAttribute("account", session.getAttribute("account"));
         return "home/afterlogin";
     }
 }
