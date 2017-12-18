@@ -12,10 +12,10 @@
         
 
       <img th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONE_team_rider_mitu_monteiro_0.jpg}" />  
-        <nav class="navbar navbar-inverse">
+        <nav class="navbar navbar-inverse" th:object ="${account}">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="home/index" th:text="Welcome ${user}">default title</a>
+                    <a class="navbar-brand" href="home/index" th:text="${title}">default title</a>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="active"><a href="">Home</a></li>
@@ -30,7 +30,7 @@
                     <li><a href="klanten/registreer"><span class="glyphicon glyphicon-user"></span> Log out</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="login"><span class="glyphicon glyphicon-log-in">Login</span></a></li>
+                    <li th:text="Welcome + *{username}"><a href="login"><span class="glyphicon glyphicon-log-in">Login</span></a></li>
                 </ul>
             </div>
         </nav> 

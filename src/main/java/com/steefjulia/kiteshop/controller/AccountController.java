@@ -60,14 +60,14 @@ public class AccountController {
         return "redirect:/login";
     }
 
-    @RequestMapping(value = "login/afterlogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/afterlogin", method = RequestMethod.GET)
     public String showLoginCompleet(Model model, HttpServletRequest request
     ) {
         model.addAttribute("title", "Login here");
         model.addAttribute(new Account());
         HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        model.addAttribute("user", account.getUsername());
+       
+        model.addAttribute("account",session.getAttribute("account"));
         return "home/afterlogin";
     }
 }
