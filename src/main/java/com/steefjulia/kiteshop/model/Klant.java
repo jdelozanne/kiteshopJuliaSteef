@@ -10,6 +10,8 @@ package com.steefjulia.kiteshop.model;
 import java.io.Serializable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -25,7 +27,10 @@ public class Klant implements Serializable {
 	@ManyToOne
     private Adres factuurAdres;
 	
+	@NotNull
+	@Size(min=2, message = "Voornaam is een verplicht veld")
     private String voornaam;
+	
     private String tussenvoegsel;
     private String achternaam;
     private String email;
