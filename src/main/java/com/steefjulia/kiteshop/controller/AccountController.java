@@ -45,7 +45,7 @@ public class AccountController {
             model.addAttribute(errors);
             model.addAttribute("title", "Login here");
             model.addAttribute(new Account());
-            return "login";
+            return "home/login";
         }
 
         HttpSession session = request.getSession();
