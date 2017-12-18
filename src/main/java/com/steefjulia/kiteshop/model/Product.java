@@ -23,8 +23,11 @@ public class Product {
     private int productID;
 
     private String naam;
+    private String omschrijving;
     private BigDecimal prijs;
     private int voorraad;
+    private String urlAfbeelding;
+    
 
     public Product() {
     }
@@ -71,7 +74,23 @@ public class Product {
         this.voorraad = voorraad;
     }
 
-    @Override
+    public String getUrlAfbeelding() {
+		return urlAfbeelding;
+	}
+
+	public void setUrlAfbeelding(String urlAfbeelding) {
+		this.urlAfbeelding = urlAfbeelding;
+	}
+
+	public String getOmschrijving() {
+		return omschrijving;
+	}
+
+	public void setOmschrijving(String omschrijving) {
+		this.omschrijving = omschrijving;
+	}
+	
+	@Override
     public String toString() {
         String productDisplay = "ProductID: " + this.getProductID() + " Product: " + this.getNaam() + " Prijs: " + this.getPrijs() + " Voorraad: " + this.getVoorraad();
         return productDisplay;
@@ -122,6 +141,8 @@ public class Product {
         }
         return true;
     }
+
+
 }
 
 
