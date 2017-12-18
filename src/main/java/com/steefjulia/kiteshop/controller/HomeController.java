@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
     
     @RequestMapping(value = "",method = RequestMethod.GET)
+    public String directToHomepage(Model model){
+           return "redirect:/home/index";
+    }
+    
+    @RequestMapping(value = "home/index",method = RequestMethod.GET)
     public String giveHomepage(Model model){
         model.addAttribute("welcome", "Welcome to the Kiteshop!");
         return "home/index";
