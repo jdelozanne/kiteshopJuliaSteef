@@ -39,13 +39,13 @@ public class AccountController {
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processLoginForm(@ModelAttribute @Valid Account newAccount, Model model, Errors errors, HttpServletRequest request) {
+    public String processLoginForm(@ModelAttribute @Valid Account newAccount, Errors errors, Model model, HttpServletRequest request) {
 
         if (errors.hasErrors()) {
             model.addAttribute(errors);
             model.addAttribute("title", "Login here");
-            model.addAttribute(new Account());
-            return "login";
+            
+            return "home/login";
         }
 
         HttpSession session = request.getSession();
