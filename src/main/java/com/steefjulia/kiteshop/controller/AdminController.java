@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -41,7 +42,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "productsForAdmin", method = RequestMethod.POST)
-    public String askProductDetails(Model model) {
+    public String askProductDetails(@ModelAttribute @Valid Product choosenProduct,Errors errors, Model model, HttpServletRequest request) {
+        Product fullProduct = productdao.findOne(choosenProduct.getProductID());
+      	HttpSession session = request.getSession();
+		session.setAttribute("product", fullProduct);
         return "redirect:/admin/productDetails";
     }
 
@@ -66,17 +70,23 @@ public class AdminController {
         return "redirect:/admin/productsForAdmin";
     }
     @RequestMapping(value = "productDetails", method = RequestMethod.GET)
-    public String showChangeProductsForm(Model model) {
-        model.addAttribute("title", "Change the product");
+    public String showChangeProductsForm(Model model, HttpServletRequest request) {
         model.addAttribute(new Product());
+        model.addAttribute("title", "Change the product");
+        HttpSession session = request.getSession();
+        Product product = (Product) session.getAttribute("product");
+        
+        model.addAttribute("product", product);
         return "admin/productDetails";
     }
-//    @RequestMapping(value = "productDetails", method = RequestMethod.POST)
-//    public String processChangeProductsForm(Model model) {
-//        model.addAttribute("title", "Change the product");
-//        model.addAttribute(new Product());
-//        return "admin/productDetails";
-//    }
+    
+    @RequestMapping(value = "productDetails", method = RequestMethod.POST)
+    public String processChangeProductsForm(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Product product = (Product) session.getAttribute("product");
+        productdao.save(product);
+        return "redirect:/admin/productsForAdmin";
+    }
     
 
 }
