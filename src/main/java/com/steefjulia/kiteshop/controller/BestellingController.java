@@ -52,4 +52,3 @@ public class BestellingController {
 		return "bestelling/afrekenen";
 	}
 }
-//Deze kite is echt niet meer normaal lelijk. Hij ziet er echt totaal niet uit en je staat echt voor lul als je met deze kite 
