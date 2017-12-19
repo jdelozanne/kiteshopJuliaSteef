@@ -5,6 +5,7 @@
  */
 package com.steefjulia.kiteshop.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,13 +82,22 @@ public class ProductController {
     	}
     	//en de bestelregel hier aan toegevoegd
     	bestelling.addBestelRegel(bestelregel);
-    
+    	
+    	//en het totaal toegevoegd want dit kan niet in time-leaf
+    	BigDecimal total = new BigDecimal(0);
+    	
+    	for(BestelRegel regel : bestelling.getBestelling() ){
+   			BigDecimal subtotal = regel.getProduct().getPrijs().multiply(new BigDecimal(regel.getAantal()));
+      		total = total.add(subtotal);
+       	}
+    	
+    	bestelling.setTotaalprijs(total);
+    	
+    	System.out.println(bestelling);
     	session.setAttribute("bestelling", bestelling);
     	
     	
-    	System.out.println(session.getAttribute("bestelling"));
     	
-    	System.out.println(bestelregel);
     	
         return "redirect:/bestelling/winkelmand";
     }

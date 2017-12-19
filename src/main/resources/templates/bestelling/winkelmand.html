@@ -1,11 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org/" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title th:text="${title}">Welcome to the Kiteshop</title>
+<title th:text="${titleIsTheTitleWeGive}">Welcome to the
+	Kiteshop</title>
 <meta charset="UTF-8" />
-<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 </head>
 <body>
-Hallo h
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/home/index" th:text="${welcome}">default
+					title</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/"><span class="glyphicon glyphicon-home"></span>
+						Home</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/products/productList">View our products</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="#"><span
+						class="glyphicon glyphicon-shopping-cart"></span> Check your
+						basket</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/klanten/registreer"><span
+						class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/login"><span
+						class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<br></br>
+	<br></br>
+	<br></br>
+
+
+
+
+	<div style="width: 600px; margin: 0 auto;">
+
+
+		<table class="table">
+
+			<tr>
+				<th>Product</th>
+				<th>Prijs</th>
+				<th>Aantal</th>
+				<th>Subtotaal</th>
+			</tr>
+
+			<tr th:each="bestelregel : ${bestelregels}">
+
+				<td th:text="${bestelregel.product.naam}" />
+				<td th:text="${bestelregel.product.prijs}" />
+				<td th:text="${bestelregel.aantal}" />
+				<td th:text="${bestelregel.aantal * bestelregel.product.prijs}" />
+			</tr>
+
+		</table>
+
+
+		<h4 th:text="${'Totaalprijs: ' + bestelling.totaalprijs}" />
+		
+		<form method="post" style="max-width: 600px;"
+			th:object="${bestelling}">
+
+			<td><input type="submit" value="Ga naar betalen" /></td>
+
+
+		</form>
+
+
+		<!-- 
+		<p th:text="${product.omschrijving}"></p>
+
+		<ul>
+			<li th:text="${'Prijs: '+product.prijs}" />
+			<li th:text="${'Voorraad: '+product.voorraad}" />
+
+		</ul>
+
+
+
+
+
+		<form method="post" style="max-width: 600px;"
+			th:object="${bestelregel}">
+			<input type="hidden" th:value="${product.productID}" name="product" />
+			<input dir="rtl" type="number" name="aantal" /> 
+			<input type="submit" value="Plaats in Winkelmand" />
+
+		</form>
+		
+		 -->
+	</div>
+
 
 </body>
 </html>
