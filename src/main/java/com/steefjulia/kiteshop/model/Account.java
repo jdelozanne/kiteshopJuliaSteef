@@ -32,7 +32,8 @@ public class Account {
     @Size(min = 6, max = 15, message = "size should be 6 -15")
     private String password;
     
-    @OneToOne (mappedBy = "account")
+    @OneToOne 
+    @JoinColumn( name = "klantID" )
     private Klant klant;
 
     public Account() { 

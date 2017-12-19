@@ -22,7 +22,6 @@ public class Klant implements Serializable {
     private int klantID;
     
     @OneToOne
-    @JoinColumn( name = "accountid")
     private Account account;
 
     @ManyToOne

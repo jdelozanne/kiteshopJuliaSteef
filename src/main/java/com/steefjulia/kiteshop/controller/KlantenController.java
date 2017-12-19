@@ -52,7 +52,6 @@ public class KlantenController {
 
 		HttpSession session = request.getSession();
 		session.setAttribute("account", newAccount);
-		//Account account = (Account) session.getAttribute("account");
 		return "redirect:/klanten/addCustomer";
 	}
         
@@ -94,11 +93,8 @@ public class KlantenController {
 	
 	@RequestMapping(value = "addAddress", method = RequestMethod.POST)
 	public String processAddCheeseForm(@ModelAttribute @Valid Adres newAdres,
-			Errors errors, Model model, HttpServletRequest request){  
-		
-		
-		
-		
+			Errors errors, Model model, HttpServletRequest request){
+            
 		if (errors.hasErrors()) {
 			model.addAttribute("title", "Registreer u nu");
 			model.addAttribute(new Klant());
@@ -115,7 +111,7 @@ public class KlantenController {
                 adresDao.save(newAdres);
 		klantenDao.save(klant);
 		accountDao.save(account);
-		return "redirect:/";
+		return "redirect:/login/afterlogin";
 	}
 	
 	/*
