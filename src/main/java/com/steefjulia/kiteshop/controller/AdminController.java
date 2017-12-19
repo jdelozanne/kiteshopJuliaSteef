@@ -5,6 +5,7 @@
  */
 package com.steefjulia.kiteshop.controller;
 
+import com.steefjulia.kiteshop.model.Account;
 import com.steefjulia.kiteshop.model.Product;
 import com.steefjulia.kiteshop.model.data.ProductDao;
 import javax.servlet.http.HttpSession;
@@ -31,6 +32,28 @@ public class AdminController {
     private ProductDao productdao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
+    public String showLoginForm(Model model) {
+        model.addAttribute("title", "Login as admin");
+        model.addAttribute(new Account());
+        return "admin/loginAsAdmin";
+    }
+    
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public String processLoginForm(@ModelAttribute Account newAccount, Errors errors, Model model, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        session.setAttribute("account", newAccount);
+
+        Account account = (Account) session.getAttribute("account");
+        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
+        //Account login = accountDao.findByUsername(account.getUsername());
+        if (account.getPassword().equals("admin000")&&account.getUsername().equals("admin")){
+            return "redirect:/admin/homeAdmin";
+        }
+        return "redirect:/admin/loginAsAdmin";
+    }
+
+    @RequestMapping(value = "homeAdmin", method = RequestMethod.GET)
     public String showHomeAdmin(Model model) {
         return "admin/homeAdmin";
     }
@@ -42,10 +65,10 @@ public class AdminController {
     }
 
     @RequestMapping(value = "productsForAdmin", method = RequestMethod.POST)
-    public String askProductDetails(@ModelAttribute @Valid Product choosenProduct,Errors errors, Model model, HttpServletRequest request) {
+    public String askProductDetails(@ModelAttribute @Valid Product choosenProduct, Errors errors, Model model, HttpServletRequest request) {
         Product fullProduct = productdao.findOne(choosenProduct.getProductID());
-      	HttpSession session = request.getSession();
-		session.setAttribute("product", fullProduct);
+        HttpSession session = request.getSession();
+        session.setAttribute("product", fullProduct);
         return "redirect:/admin/productDetails";
     }
 
@@ -65,21 +88,22 @@ public class AdminController {
             return "admin/addProduct";
         }
         HttpSession session = request.getSession();
-       session.setAttribute("product", newProduct);
+        session.setAttribute("product", newProduct);
         productdao.save(newProduct);
         return "redirect:/admin/productsForAdmin";
     }
+
     @RequestMapping(value = "productDetails", method = RequestMethod.GET)
     public String showChangeProductsForm(Model model, HttpServletRequest request) {
         model.addAttribute(new Product());
         model.addAttribute("title", "Change the product");
         HttpSession session = request.getSession();
         Product product = (Product) session.getAttribute("product");
-        
+
         model.addAttribute("product", product);
         return "admin/productDetails";
     }
-    
+
     @RequestMapping(value = "productDetails", method = RequestMethod.POST)
     public String processChangeProductsForm(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -87,6 +111,5 @@ public class AdminController {
         productdao.save(product);
         return "redirect:/admin/productsForAdmin";
     }
-    
 
 }
