@@ -34,7 +34,7 @@ public class BestellingController {
 	
 		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
 
-		if(session.getAttribute("klant")!=null){
+		if(session.getAttribute("account")!=null){
 			return "redirect:/bestelling/afrekenen";
 		} else {
 			return "redirect:/klanten/addAccount";
@@ -47,7 +47,7 @@ public class BestellingController {
 	public String showAfrekenen(Model model, HttpServletRequest request) {
 
 		model.addAttribute(request.getSession().getAttribute("bestelling"));
-		model.addAttribute(request.getSession().getAttribute("klant"));
+		
 		
 		return "bestelling/afrekenen";
 	}
