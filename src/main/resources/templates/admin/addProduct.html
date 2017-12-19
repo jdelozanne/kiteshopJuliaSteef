@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+    <head>
+         <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title th:text="${title}">Welcome to the Kiteshop</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    </head>
+    <body class="container">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/home/index" th:text="${welcome}">default
+                        title</a>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/admin/homeAdmin"><span class="glyphicon glyphicon-home"></span>
+                            Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/admin/productsForAdmin">View your products</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/login/logout"><span
+                                class="glyphicon glyphicon-log-in"></span> Log out</a></li>
+                </ul>
+            </div>
+        </nav>
+        <br></br>
+        <br></br>
+
+        <h1 th:text="${title}">Default Title</h1>
+
+        <form method="post" style="max-width:600px;" th:object="${product}">
+            <div class="form-group">
+                <label th:for="productnaam">Productnaam</label>
+                <input class="form-control" th:field="*{naam}" />
+                <span th:errors="*{naam}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="omschrijving">Omschrijving</label>
+                <input class="form-control" th:field="*{omschrijving}" />
+                <span th:errors="*{omschrijving}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="prijs">Prijs</label>
+                <input class="form-control" th:field="*{prijs}" />
+                <span th:errors="*{prijs}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="voorraad">Voorraad</label>
+                <input class="form-control" th:field="*{voorraad}" />
+                <span th:errors="*{voorraad}" class="error"></span>
+            </div>
+            <div class="form-group">
+                <label th:for="urlAfbeelding">Link afbeelding</label>
+                <input class="form-control" th:field="*{urlAfbeelding}" />
+                <span th:errors="*{urlAfbeelding}" class="error"></span>
+            </div>
+
+            <input type="submit" value="Save product" />
+        </form>
+
+    </body>
+</html>
