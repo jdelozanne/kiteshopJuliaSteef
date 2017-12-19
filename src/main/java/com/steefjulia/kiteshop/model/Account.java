@@ -23,7 +23,7 @@ public class Account {
     @Id
     @GeneratedValue
     private int id;
-
+    
     @NotNull
     @Size(min = 6, max = 15)
     private String username;
