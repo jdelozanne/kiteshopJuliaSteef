@@ -71,6 +71,14 @@ public class AdminController {
         session.setAttribute("product", fullProduct);
         return "redirect:/admin/productDetails";
     }
+    
+//    @RequestMapping(value = "productsForAdmin", method = RequestMethod.POST, params={"delete"})
+//    public String askProductDeletePage(@ModelAttribute @Valid Product choosenProduct, Errors errors, Model model, HttpServletRequest request) {
+//        Product fullProduct = productdao.findOne(choosenProduct.getProductID());
+//        HttpSession session = request.getSession();
+//        session.setAttribute("product", fullProduct);
+//        return "redirect:/admin/deleteProduct";
+//    }
 
     @RequestMapping(value = "addProduct", method = RequestMethod.GET)
     public String showAddProductsForm(Model model) {
@@ -109,6 +117,22 @@ public class AdminController {
         HttpSession session = request.getSession();
         Product product = (Product) session.getAttribute("product");
         productdao.save(product);
+        return "redirect:/admin/productsForAdmin";
+    }
+    
+    @RequestMapping(value = "deleteProduct", method = RequestMethod.GET)
+    public String showdeleteProductForm(Model model, HttpServletRequest request) {
+        model.addAttribute("title", "Deleting product");
+        HttpSession session = request.getSession();
+        Product product = (Product) session.getAttribute("product");
+        model.addAttribute("product", product);
+        return "admin/deleteProduct";
+    }
+    @RequestMapping(value = "deleteProduct", method = RequestMethod.POST)
+    public String processDeleteProductForm(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Product product = (Product) session.getAttribute("product");
+        productdao.delete(product);
         return "redirect:/admin/productsForAdmin";
     }
 

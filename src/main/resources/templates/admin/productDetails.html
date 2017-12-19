@@ -65,7 +65,16 @@
             </div>
 
             <input type="submit" value="Save changes" />
+            <br></br>
+            <br></br>
+
         </form>
+   <div class="form-group">
+            <form method="get" action="/admin/deleteProduct" style="max-width:600px;" th:object="${product}">
+            <input type="submit" value="Delete" />
+        </form>
+        </div>
+  
     </body>
                 </html>
    
