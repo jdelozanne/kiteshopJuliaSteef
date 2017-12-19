@@ -13,7 +13,7 @@ public class BestellingController {
 	
 	 @RequestMapping(value = "winkelmand", method = RequestMethod.GET)
 	    public String showAllProducts(Model model) {
-	   
+	   //
 	        return "bestelling/winkelmand";
 	    }
 

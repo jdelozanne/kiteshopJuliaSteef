@@ -47,7 +47,7 @@ public class ProductController {
     public String processAddProductForm(@ModelAttribute @Valid Product choosenProduct,
 			Errors errors, Model model, HttpServletRequest request) {
        
-    	//Om code regels te beaparen heb ik vanuit html alleen het product id gevuld van het product
+    	//Om code regels te beaparen heb ik vanuit html alleen het product id gevuld van het product /
     	//dat ik in de product pagina wil zien, dus ik moet daar nu nog even het hele proudct bij zoeken
     	Product fullProduct = productDao.findOne(choosenProduct.getProductID());
       	HttpSession session = request.getSession();
