@@ -16,13 +16,13 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">WebSiteName</a>
+      <a class="navbar-brand" href="/home/index">Kiteshop</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <li class="active"><a href="/home/index">Home</a></li>
         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="/products/productList">Products <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li><a href="#">Page 1-1</a></li>
             <li><a href="#">Page 1-2</a></li>
@@ -46,7 +46,7 @@
 
         <form   method="post" style="max-width:600px;" th:object ="${account}">
             <div class="form-group">
-                <label th:for="username">username</label>
+                <label th:for="username">Username</label>
                 <input class="form-control" th:field="*{username}" />
                 <span th:errors="*{username}" class="error"></span>
             </div>

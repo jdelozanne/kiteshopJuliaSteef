@@ -35,7 +35,7 @@ public class AccountController {
     public String showLoginForm(Model model) {
         model.addAttribute("title", "Login here");
         model.addAttribute(new Account());
-        return "home/login";
+        return "login/beforelogin";
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -45,7 +45,7 @@ public class AccountController {
             model.addAttribute(errors);
             model.addAttribute("title", "Login here");
             
-            return "home/login";
+            return "login/beforelogin";
         }
 
         HttpSession session = request.getSession();
@@ -57,17 +57,16 @@ public class AccountController {
         if (login.getPassword().equals(account.getPassword())) {
             return "redirect:login/afterlogin";
         }
-        return "redirect:/login";
+        return "redirect:/login/beforelogin";
     }
 
     @RequestMapping(value = "/afterlogin", method = RequestMethod.GET)
     public String showLoginCompleet(Model model, HttpServletRequest request
     ) {
-        model.addAttribute("title", "Login here");
+        model.addAttribute("title", "You are logged in");
         model.addAttribute(new Account());
         HttpSession session = request.getSession();
-
         model.addAttribute("account", session.getAttribute("account"));
-        return "home/afterlogin";
+        return "login/afterlogin";
     }
 }
