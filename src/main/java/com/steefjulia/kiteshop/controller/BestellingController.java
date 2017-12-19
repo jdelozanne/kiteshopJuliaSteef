@@ -28,18 +28,27 @@ public class BestellingController {
 	}
 	
 	@RequestMapping(value = "winkelmand", method = RequestMethod.POST)
-	public String gaNaarBetalen(Model model, HttpServletRequest request) {
+	public String gaNaarBetalen(HttpServletRequest request) {
 		
 		HttpSession session = request.getSession();
-		
-
-		
+	
 		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
 
-		model.addAttribute("bestelling",bestelling);
-		model.addAttribute("bestelregels", bestelling.getBestelling());
-		//
-		return "bestelling/winkelmand";
+		if(session.getAttribute("klant")!=null){
+			return "redirect:/bestelling/afrekenen";
+		} else {
+			return "redirect:/klanten/addAccount";
+		}
+		
+		
 	}
 
+	@RequestMapping(value = "afrekenen", method = RequestMethod.GET)
+	public String showAfrekenen(Model model, HttpServletRequest request) {
+
+		model.addAttribute(request.getSession().getAttribute("bestelling"));
+		model.addAttribute(request.getSession().getAttribute("klant"));
+		
+		return "bestelling/afrekenen";
+	}
 }
