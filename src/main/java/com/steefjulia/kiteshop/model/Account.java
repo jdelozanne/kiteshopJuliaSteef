@@ -23,20 +23,23 @@ public class Account {
     @Id
     @GeneratedValue
     private int id;
-    
+
     @NotNull
     @Size(min = 6, max = 15)
     private String username;
-    
+
     @NotNull
     @Size(min = 6, max = 15, message = "size should be 6 -15")
     private String password;
-    
-    @OneToOne 
-    @JoinColumn( name = "klantID" )
-    private Klant klant;
 
-    public Account() { 
+    @OneToOne
+    @JoinColumn(name = "klantID")
+    private Klant klant;
+    
+    
+    private String salt;
+
+    public Account() {
     }
 
     public String getPassword() {
@@ -62,6 +65,13 @@ public class Account {
     public void setKlant(Klant klant) {
         this.klant = klant;
     }
-    
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
 }

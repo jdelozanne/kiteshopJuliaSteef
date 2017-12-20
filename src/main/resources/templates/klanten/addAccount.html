@@ -8,13 +8,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     </head>
+   
     <body class="container">
         <h1 th:text="${title}">Default Title</h1>
 
 
 
         <form method="post" style="max-width:600px;" th:object="${account}">
-            <div class="form-group">
+         <div class="form-group">
                 <label th:for="username">Username</label>
                 <input class="form-control" th:field="*{username}" />
                 <span th:errors="*{username}" class="error"></span>
@@ -24,8 +25,10 @@
                 <input class="form-control" th:field="*{password}" />
                 <span th:errors="*{password}" class="error"></span>
             </div>
+        
 
             <input type="submit" value="Save and continue" />
+           
         </form>
 
     </body>
