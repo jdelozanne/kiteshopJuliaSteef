@@ -50,6 +50,12 @@ public class KlantenController {
             model.addAttribute(errors);
             return "klanten/addAccount";
         }
+        
+        if(accountExists(newAccount.getUsername())){
+            model.addAttribute("error", "user already exists, try again");
+            model.addAttribute("title", "Register");
+            return "klanten/addAccount";
+        }
 
         
         HttpSession session = request.getSession();
@@ -112,6 +118,14 @@ public class KlantenController {
         klantenDao.save(klant);
         accountDao.save(account);
         return "redirect:/login/afterlogin";
+    }
+    
+    public boolean accountExists(String gebruikersnaam) {
+        boolean exists = false;
+        if (accountDao.findByUsername(gebruikersnaam).getUsername() != null) {
+            exists = true;
+        }
+        return exists;
     }
 
 }
