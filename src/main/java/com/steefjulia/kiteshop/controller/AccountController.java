@@ -28,45 +28,43 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("login")
 public class AccountController {
 
-    @Autowired
-    private AccountDao accountDao;
+	@Autowired
+	private AccountDao accountDao;
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public String showLoginForm(Model model) {
-        model.addAttribute("title", "Login here");
-        model.addAttribute(new Account());
-        return "login/beforelogin";
-    }
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public String showLoginForm(Model model) {
+		model.addAttribute("title", "Login here");
+		model.addAttribute(new Account());
+		return "login/beforelogin";
+	}
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processLoginForm(@ModelAttribute @Valid Account newAccount, Errors errors, Model model, HttpServletRequest request) {
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public String processLoginForm(@ModelAttribute @Valid Account newAccount, Errors errors, Model model, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+				if (errors.hasErrors()) {
+					model.addAttribute(errors);
+					model.addAttribute("title", "Login here");
 
-        if (errors.hasErrors()) {
-            model.addAttribute(errors);
-            model.addAttribute("title", "Login here");
-            
-            return "login/beforelogin";
-        }
+					return "login/beforelogin";
+				}
 
-        HttpSession session = request.getSession();
-        session.setAttribute("account", newAccount);
 
-        Account account = (Account) session.getAttribute("account");
-        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
-        Account login = accountDao.findByUsername(account.getUsername());
-        if (login.getPassword().equals(account.getPassword())) {
-            return "redirect:login/afterlogin";
-        }
-        return "redirect:/login/beforelogin";
-    }
+		//hier gebruikmaken van servicelayer om hash te maken van password en te checken
+		Account login = accountDao.findByUsername(newAccount.getUsername());
+		if (login.getPassword().equals(newAccount.getPassword())) {
+			session.setAttribute("account", login);;
+			return "redirect:login/afterlogin";
+		}
+		return "redirect:/login/beforelogin";
+	}
 
-    @RequestMapping(value = "/afterlogin", method = RequestMethod.GET)
-    public String showLoginCompleet(Model model, HttpServletRequest request
-    ) {
-        model.addAttribute("title", "You are logged in");
-        model.addAttribute(new Account());
-        HttpSession session = request.getSession();
-        model.addAttribute("account", session.getAttribute("account"));
-        return "login/afterlogin";
-    }
+	@RequestMapping(value = "/afterlogin", method = RequestMethod.GET)
+	public String showLoginCompleet(Model model, HttpServletRequest request
+			) {
+		model.addAttribute("title", "You are logged in");
+		model.addAttribute(new Account());
+		HttpSession session = request.getSession();
+		model.addAttribute("account", session.getAttribute("account"));
+		return "login/afterlogin";
+	}
 }
