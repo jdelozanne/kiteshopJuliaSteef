@@ -26,6 +26,8 @@ public class BestellingController {
 	@RequestMapping(value = "winkelmand", method = RequestMethod.GET)
 	public String showBestelling(Model model, HttpServletRequest request) {
 
+		
+		//to do als bestlling null is een nieuw e maken zodner regels en die erin stoppen voorkomet null pointer
 		HttpSession session = request.getSession();
 		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
 
