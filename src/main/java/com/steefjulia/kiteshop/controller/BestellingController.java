@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.steefjulia.kiteshop.model.*;
+import com.steefjulia.kiteshop.model.data.BestelRegelDao;
 import com.steefjulia.kiteshop.model.data.BestellingDao;
 import com.steefjulia.kiteshop.model.data.ProductDao;
 
@@ -17,10 +18,10 @@ import com.steefjulia.kiteshop.model.data.ProductDao;
 @Controller
 @RequestMapping("bestelling")
 public class BestellingController {
-	
-	
-	@Autowired
-    private BestellingDao bestellingDao;
+
+
+	@Autowired 	private BestellingDao bestellingDao;
+	@Autowired 	private BestelRegelDao bestelRegelDao;
 
 	@RequestMapping(value = "winkelmand", method = RequestMethod.GET)
 	public String showBestelling(Model model, HttpServletRequest request) {
@@ -55,7 +56,7 @@ public class BestellingController {
 		HttpSession session = request.getSession();
 		model.addAttribute(session.getAttribute("bestelling"));
 
-		Account account = (Account) session.getAttribute("account");
+		Account account = (Account) session.getAttribute("fullAccount");
 		System.out.println(account);
 
 
@@ -73,14 +74,24 @@ public class BestellingController {
 		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
 		Klant klant =  (Klant) session.getAttribute("klant");
 		bestelling.setKlant(klant);
-		bestellingDao.save(bestelling);
 		
-		if(session.getAttribute("account")!=null){
-			return "redirect:/bestelling/afrekenen";
-		} else {
-			return "redirect:/klanten/addAccount";
+		for(BestelRegel regel : bestelling.getBestelling()){
+			bestelRegelDao.save(regel);
 		}
+		
+		bestellingDao.save(bestelling);
 
 
+
+		return "redirect:/bestelling/bedanktVoorUwAankoop";
 	}
+	
+	@RequestMapping(value = "bedanktVoorUwAankoop", method = RequestMethod.GET)
+	public String showBedankVoorUwAankoop(Model model, HttpServletRequest request) {
+		 model.addAttribute("welcome", "Welcome to the Kiteshop!");
+
+		return "bestelling/bedanktVoorUwAankoop";
+	}
+	
+	
 }

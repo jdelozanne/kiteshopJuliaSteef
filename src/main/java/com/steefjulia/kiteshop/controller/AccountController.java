@@ -41,19 +41,19 @@ public class AccountController {
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String processLoginForm(@ModelAttribute @Valid Account newAccount, Errors errors, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-				if (errors.hasErrors()) {
-			
-					model.addAttribute(errors);
-					model.addAttribute("title", "Login here");
+		if (errors.hasErrors()) {
 
-					return "login/beforelogin";
-				}
+			model.addAttribute(errors);
+			model.addAttribute("title", "Login here");
 
+			return "login/beforelogin";
+		}
+		session.setAttribute("account", newAccount);
 
 		//hier gebruikmaken van servicelayer om hash te maken van password en te checken
 		Account login = accountDao.findByUsername(newAccount.getUsername());
 		if (login.getPassword().equals(newAccount.getPassword())) {
-			session.setAttribute("account", login);;
+			session.setAttribute("fullAccount", login);;
 			return "redirect:login/afterlogin";
 		}
 		return "redirect:/login/beforelogin";

@@ -38,7 +38,19 @@ public class ProductController {
     private ProductDao productDao;
 
     @RequestMapping(value = "productList", method = RequestMethod.GET)
-    public String showAllProducts(Model model) {
+    public String showAllProducts(Model model, HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	Account account = (Account) session.getAttribute("fullAccount");
+    	if(account==null){
+    		account=new Account();
+    		account.setUsername("dummy");
+       	}
+    	
+    	System.out.println(account.getUsername());
+    	model.addAttribute("account", account);
+    	
+    	
+    	
         model.addAttribute(new Product());
         model.addAttribute("products", productDao.findAll());
         return "products/productList";
@@ -47,11 +59,12 @@ public class ProductController {
     @RequestMapping(value = "productList", method = RequestMethod.POST)
     public String processAddProductForm(@ModelAttribute @Valid Product choosenProduct,
 			Errors errors, Model model, HttpServletRequest request) {
-       
+    	HttpSession session = request.getSession();
+    
     	//Om code regels te beaparen heb ik vanuit html alleen het product id gevuld van het product /
     	//dat ik in de product pagina wil zien, dus ik moet daar nu nog even het hele proudct bij zoeken
     	Product fullProduct = productDao.findOne(choosenProduct.getProductID());
-      	HttpSession session = request.getSession();
+      
 		session.setAttribute("product", fullProduct);
         return "redirect:/products/productPagina";
     }

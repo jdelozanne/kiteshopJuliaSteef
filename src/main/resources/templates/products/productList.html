@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-    <head>
-        <link rel="stylesheet"
-              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<head>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-        <script
-        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <title th:text="${title}">Welcome to the Kiteshop</title>
-        <title th:text="${titleIsTheTitleWeGive}">Welcome to the
-            Kiteshop</title>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title th:text="${title}">Welcome to the Kiteshop</title>
+<title th:text="${titleIsTheTitleWeGive}">Welcome to the
+	Kiteshop</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    </head>
-    <body>
+</head>
+<body>
 
-       
-       
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="/home/index" th:text="${welcome}">default title</a>
-                </div>
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/home/index"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+
+
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/home/index" th:text="${welcome}">default
+					title</a>
+			</div>
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="/home/index"><span
+						class="glyphicon glyphicon-home"></span> Home</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="/products/productList">View our products</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-left">
+				<li><a href="/bestelling/winkelmand"><span
+						class="glyphicon glyphicon-shopping-cart"></span> Check your
+						basket</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="/klanten/addAccount"><span
+						class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+			</ul>
+		
+			<ul class="nav navbar-nav navbar-right">
+
+
+				<li><a th:if= "${account.username == 'dummy'}" th:text = "Login" href="/login">
+				<span 	class="glyphicon glyphicon-log-in"  ></span> </a></li>
+			</ul>
+			 
+			
+			
+			    <ul class="nav navbar-nav navbar-right">
+                    <li ><a th:if= "${account.username != 'dummy'}" th:text=" Welcome +' '+ *{account.username}" href="/login"></a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/products/productList">View our products</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/bestelling/winkelmand"><span class="glyphicon glyphicon-shopping-cart"></span> Check your basket</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
-            </div>
-        </nav> 
+		</div>
+	</nav>
 
-        <img
-            th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONEkites_camille_delannoy_action_0.jpg}" />
+	<img
+		th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONEkites_camille_delannoy_action_0.jpg}" />
 
-        <p th:unless="${products} and ${products.size()}">No products</p>
+	<p th:unless="${products} and ${products.size()}">No products</p>
 
-        <div th:each="product : ${products}" th:object="${product}">
-            <h3 th:text="*{naam}"></h3>
-            <h3 th:text="*{prijs}"></h3>
-            <form method="post">
-                <input type="hidden" th:value="*{productID}" name="productID" /> <br />
-                <!-- It works -->
+	<div th:each="product : ${products}" th:object="${product}">
+		<h3 th:text="*{naam}"></h3>
+		<h3 th:text="*{prijs}"></h3>
+		<form method="post">
+			<input type="hidden" th:value="*{productID}" name="productID" /> <br />
+			<!-- It works -->
 
-                <input type="submit" value="Naar Productpagina" />
-            </form>
-        </div>
+			<input type="submit" value="Naar Productpagina" />
+		</form>
+	</div>
 
 
-    </body>
+</body>
 </html>
