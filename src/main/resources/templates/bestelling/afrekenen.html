@@ -49,17 +49,43 @@
 	<br></br>
 
 
-<form method="post" style="max-width: 600px;"
-			th:object="${bestelling}">
+	<div style="width: 600px; margin: 0 auto;">
+
+		<h3>Persoonsgegevens</h3>
+		<p
+			th:text="${klant.voornaam+' '+klant.tussenvoegsel+' '+klant.achternaam}"></p>
+		<p
+			th:text="${klant.bezoekAdres.straatnaam+' '+klant.bezoekAdres.huisnummer}"></p>
+		<p
+			th:text="${klant.bezoekAdres.postcode+' '+klant.bezoekAdres.woonplaats}"></p>
+	</div>
+	
+	<br></br>
+	
+	<div style="width: 600px; margin: 0 auto;">
+
+		<h3>Totaalprijs bestelling</h3>
+		<p
+			th:text="${bestelling.totaalprijs}"></p>
+		
+	</div>
+	
+	<br></br>
+	
+		
+	<div style="width: 600px; margin: 0 auto;">
+
+		<h3>Vul creditcard nummer in</h3>
+		<form method="post" style="max-width: 600px;" th:object="${bestelling}">
 
 
-    		<input field="creditcardNumber" />
-
-			<input type="submit" value="Betaal" />
-
-
-		</form>
+		<input field="creditcardNumber" /> <input type="submit"
+			value="Betaal" />
 
 
+	</form>
+		
+	</div>
+	
 </body>
 </html>
