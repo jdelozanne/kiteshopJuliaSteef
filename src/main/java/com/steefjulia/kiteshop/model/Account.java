@@ -25,11 +25,11 @@ public class Account {
     private int id;
 
     @NotNull
-    @Size(min = 6, max = 15)
+    @Size(min = 6, max = 70)
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 15, message = "size should be 6 -15")
+    @Size(min = 6, max = 70, message = "size should be 6 -15")
     private String password;
 
     @OneToOne
