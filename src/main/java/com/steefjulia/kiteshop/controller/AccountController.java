@@ -42,6 +42,7 @@ public class AccountController {
 	public String processLoginForm(@ModelAttribute @Valid Account newAccount, Errors errors, Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 				if (errors.hasErrors()) {
+			
 					model.addAttribute(errors);
 					model.addAttribute("title", "Login here");
 
