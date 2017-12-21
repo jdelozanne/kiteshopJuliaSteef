@@ -103,20 +103,25 @@ public class AdminController {
 
     @RequestMapping(value = "productDetails", method = RequestMethod.GET)
     public String showChangeProductsForm(Model model, HttpServletRequest request) {
-        model.addAttribute(new Product());
+      // model.addAttribute(new Product());
         model.addAttribute("title", "Change the product");
-        HttpSession session = request.getSession();
+      HttpSession session = request.getSession();
         Product product = (Product) session.getAttribute("product");
 
-        model.addAttribute("product", product);
+       model.addAttribute("product", product);
         return "admin/productDetails";
     }
 
     @RequestMapping(value = "productDetails", method = RequestMethod.POST)
-    public String processChangeProductsForm(Model model, HttpServletRequest request) {
+    public String processChangeProductsForm(@ModelAttribute @Valid Product changedProduct, Errors errors, Model model, HttpServletRequest request) {
+        if (errors.hasErrors()) {
+            model.addAttribute(errors);
+            model.addAttribute("title", "Add a new product");
+            return "admin/productDetails";
+        }
         HttpSession session = request.getSession();
-        Product product = (Product) session.getAttribute("product");
-        productdao.save(product);
+        session.setAttribute("product",changedProduct);
+        productdao.save(changedProduct);
         return "redirect:/admin/productsForAdmin";
     }
     

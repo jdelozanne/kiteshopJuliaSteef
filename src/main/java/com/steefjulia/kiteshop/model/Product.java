@@ -20,7 +20,7 @@ public class Product {
     
     @Id
     @GeneratedValue
-    private int productID;
+    private int productid;
 
     private String naam;
     private String omschrijving;
@@ -43,11 +43,11 @@ public class Product {
     }
 
     public int getProductID() {
-        return productID;
+        return productid;
     }
 
     public void setProductID(int productID) {
-        this.productID = productID;
+        this.productid = productID;
     }
 
     public String getNaam() {
@@ -102,7 +102,7 @@ public class Product {
         int result = 1;
         result = prime * result + ((naam == null) ? 0 : naam.hashCode());
         result = prime * result + ((prijs == null) ? 0 : prijs.hashCode());
-        result = prime * result + productID;
+        result = prime * result + productid;
         result = prime * result + voorraad;
         return result;
     }
@@ -133,7 +133,7 @@ public class Product {
         } else if (!prijs.equals(other.prijs)) {
             return false;
         }
-        if (productID != other.productID) {
+        if (productid != other.productid) {
             return false;
         }
         if (voorraad != other.voorraad) {

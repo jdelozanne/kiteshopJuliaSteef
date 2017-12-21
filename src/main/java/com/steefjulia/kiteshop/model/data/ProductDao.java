@@ -17,5 +17,6 @@ import javax.transaction.Transactional;
 @Repository
 @Transactional
 public interface ProductDao extends CrudRepository<Product, Integer> {
-    
+    //public Product update(Product p);
+    //public Product saveOrUpdate(Product p);
 }
