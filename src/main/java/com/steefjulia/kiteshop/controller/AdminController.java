@@ -119,8 +119,7 @@ public class AdminController {
             model.addAttribute("title", "Add a new product");
             return "admin/productDetails";
         }
-        HttpSession session = request.getSession();
-        session.setAttribute("product",changedProduct);
+                
         productdao.save(changedProduct);
         return "redirect:/admin/productsForAdmin";
     }
