@@ -20,10 +20,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LoginService {
-    
+
     @Autowired
     AccountDao accountDao;
-  public boolean accountExists(String gebruikersnaam) {
+
+    public boolean accountExists(String gebruikersnaam) {
         boolean exists = true;
 
         try {
@@ -32,9 +33,9 @@ public class LoginService {
             exists = false;
         }
         return exists;
-    }  
-  
-      public void createAccount(Account account) {
+    }
+
+    public void createAccount(Account account) {
         /* 
 		 * Het ingegeven nog niet gehashte password wordt in de hasher gestopt en daarna wordt het pasword overschreven 
 		 * door het gehashte, en het orgineel bestaat dan dus niet meer
@@ -54,99 +55,90 @@ public class LoginService {
         String gegevenWachtwoordGehashd = createHashedPassword(saltCurrentAccount, gegevenWachtwoord);
         return gegevenWachtwoordGehashd.equals(currentAccount.getPassword());
     }
-    
+
     public static String createHashedPassword(String saltHex, String password) {
-		String paswordHex = toHexadecimal(password);
-		String combinedHex = saltHex + paswordHex;
+        String paswordHex = toHexadecimal(password);
+        String combinedHex = saltHex + paswordHex;
 
-		byte[] combinedArray = hexStringtoByteArray(combinedHex);
+        byte[] combinedArray = hexStringtoByteArray(combinedHex);
 
-		MessageDigest md= null;
+        MessageDigest md = null;
 
-		try {
-			md = MessageDigest.getInstance("md5"); // je kan hier md5 of SHA zetten, blijft werken
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		md.update(combinedArray); 
-		byte[] hashedPasswordInBytes = md.digest();
-		String hashedPasswordHex = biteArrayToHexString(hashedPasswordInBytes);
-
-		return hashedPasswordHex;
-	}
-
-	public static String createSaltHex(){
-		byte[] saltBytes = createSaltBytes();
-		String saltHexString = biteArrayToHexString(saltBytes);
-		return saltHexString;
-	}
-
-
-	private static byte[] createSaltBytes() {
-		SecureRandom random = new SecureRandom();
-		byte[] values = new byte[32];
-
-		random.nextBytes(values);
-
-		return values;
-	}
-        
-       
-
-	public static String createHashedToken(String token) {
-		String tokenHex = toHexadecimal(token + "d|t1s33nt0k3n");
-		byte[] combinedArray = hexStringtoByteArray(tokenHex);
-		MessageDigest md = null;
-		try {
-			md = MessageDigest.getInstance("SHA"); // je kan hier md5 of SHA zetten, blijft werken
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		md.update(combinedArray); 
-		byte[] hashedPasswordInBytes = md.digest();
-		String hashedTokenHex = biteArrayToHexString(hashedPasswordInBytes);
-
-		return hashedTokenHex;
+        try {
+            md = MessageDigest.getInstance("md5"); // je kan hier md5 of SHA zetten, blijft werken
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+        md.update(combinedArray);
+        byte[] hashedPasswordInBytes = md.digest();
+        String hashedPasswordHex = biteArrayToHexString(hashedPasswordInBytes);
 
+        return hashedPasswordHex;
+    }
 
+    public static String createSaltHex() {
+        byte[] saltBytes = createSaltBytes();
+        String saltHexString = biteArrayToHexString(saltBytes);
+        return saltHexString;
+    }
 
+    private static byte[] createSaltBytes() {
+        SecureRandom random = new SecureRandom();
+        byte[] values = new byte[32];
 
-	//Helper 'omreken' functies
+        random.nextBytes(values);
 
-	private static String biteArrayToHexString(byte[] array) {
-		return DatatypeConverter.printHexBinary(array);
-	}
+        return values;
+    }
 
-	private static byte[] hexStringtoByteArray(String s) {
-		return DatatypeConverter.parseHexBinary(s);
-	}
+    public static String createHashedToken(String token) {
+        String tokenHex = toHexadecimal(token + "d|t1s33nt0k3n");
+        byte[] combinedArray = hexStringtoByteArray(tokenHex);
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA"); // je kan hier md5 of SHA zetten, blijft werken
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        md.update(combinedArray);
+        byte[] hashedPasswordInBytes = md.digest();
+        String hashedTokenHex = biteArrayToHexString(hashedPasswordInBytes);
 
-	private static String toHex(byte [] buf) {
-		StringBuffer strbuf = new StringBuffer(buf.length * 2);
-		int i;
-		for (i = 0; i < buf.length; i++) {
-			if (((int) buf[i] & 0xff) < 0x10) {
-				strbuf.append("0");
-			}
-			strbuf.append(Long.toString((int) buf[i] & 0xff, 16));
-		}
-		return strbuf.toString();
-	}
+        return hashedTokenHex;
+    }
 
-	private static String toHexadecimal(String text)
-	{
-		byte[] myBytes= null;
-		try {
-			myBytes = text.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    //Helper 'omreken' functies
+    private static String biteArrayToHexString(byte[] array) {
+        return DatatypeConverter.printHexBinary(array);
+    }
 
-		return DatatypeConverter.printHexBinary(myBytes);
-	}
-    
+    private static byte[] hexStringtoByteArray(String s) {
+        return DatatypeConverter.parseHexBinary(s);
+    }
+
+    private static String toHex(byte[] buf) {
+        StringBuffer strbuf = new StringBuffer(buf.length * 2);
+        int i;
+        for (i = 0; i < buf.length; i++) {
+            if (((int) buf[i] & 0xff) < 0x10) {
+                strbuf.append("0");
+            }
+            strbuf.append(Long.toString((int) buf[i] & 0xff, 16));
+        }
+        return strbuf.toString();
+    }
+
+    private static String toHexadecimal(String text) {
+        byte[] myBytes = null;
+        try {
+            myBytes = text.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return DatatypeConverter.printHexBinary(myBytes);
+    }
+
 }
