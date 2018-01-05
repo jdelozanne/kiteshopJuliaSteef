@@ -1,21 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"/>
-        <title th:text="${titleIsTheTitleWeGive}">Welcome to the Kiteshop</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><title th:text="${title}">Welcome to the Kiteshop</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
     </head>
-   
-    <body class="container">
+
+    <body >
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/home/index" th:text="${welcome}">default
+                        title</a>
+                </div>
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/home/index"><span
+                                class="glyphicon glyphicon-home"></span> Home</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/products/productList">View our products</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/bestelling/winkelmand"><span
+                                class="glyphicon glyphicon-shopping-cart"></span> Check your
+                            basket</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/klanten/addAccount"><span
+                                class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    <li><a th:if= "${account.username == 'dummy'}" th:text = "Login" href="/login">
+                            <span 	class="glyphicon glyphicon-log-in"  ></span> </a></li>
+                </ul>
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li ><a th:if= "${account.username != 'dummy'}" th:text=" Welcome +' '+ *{account.username}" href="/login"></a></li>
+                </ul>
+            </div>
+        </nav>
+        <br></br>
+        <br></br>
         <h1 th:text="${title}">Default Title</h1>
 
-
-
         <form method="post" style="max-width:600px;" th:object="${account}">
-         <div class="form-group">
+            <div class="form-group">
                 <label th:for="username">Username</label>
                 <input class="form-control" th:field="*{username}" />
                 <span th:errors="*{username}" class="error"></span>
@@ -26,10 +63,10 @@
                 <input type="password" class="form-control" th:field="*{password}" />
                 <span th:errors="*{password}" class="error"></span>
             </div>
-        
+
 
             <input type="submit" value="Save and continue" />
-           
+
         </form>
 
     </body>
