@@ -47,10 +47,17 @@ public class BestellingController {
 		if(session.getAttribute("account")!=null){
 			return "redirect:/bestelling/afrekenen";
 		} else {
-			return "redirect:/klanten/addAccount";
+			return "redirect:/bestelling/kiesInloggenOfNieuwAccoount";
 		}
 
 
+	}
+	
+	@RequestMapping(value = "kiesInloggenOfNieuwAccoount", method = RequestMethod.GET)
+	public String showKiesInloggenOfAccountAanmaken(Model model, HttpServletRequest request) {
+
+	
+		return "bestelling/kiesInloggenOfNieuwAccoount";
 	}
 
 	@RequestMapping(value = "afrekenen", method = RequestMethod.GET)
