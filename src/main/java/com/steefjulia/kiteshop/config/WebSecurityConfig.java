@@ -24,14 +24,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/home", "/home/index", "/products/*", "/bestelling/winkelmand").permitAll()
+                    .authorizeRequests()
+                     .antMatchers("/", "/home", "/home/index", "/products/*", "/bestelling/*", "/login/**", "/klanten/*").permitAll()
                 .antMatchers("/admin/*").access( "hasRole('ADMIN')")
-                .anyRequest().authenticated()
+                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .loginPage("/login")
-                .permitAll();
+                    .loginPage("/admin")
+                    .permitAll();
+                
+                
                 
     }
 

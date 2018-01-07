@@ -5,10 +5,14 @@
  */
 package com.steefjulia.kiteshop.model;
 
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,18 +29,21 @@ public class Account {
     private int id;
 
     @NotNull
-    @Size(min = 6, max = 70)
+    @Size(min = 6, max = 70, message = "size should be 6 and 15")
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 70, message = "size should be 6 -15")
+    @Size(min = 6, max = 70, message = "size should be 6 and 15")
     private String password;
 
     @OneToOne
     @JoinColumn(name = "klantID")
     private Klant klant;
-    
-    
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     private String salt;
 
     public Account() {
@@ -64,6 +71,14 @@ public class Account {
 
     public void setKlant(Klant klant) {
         this.klant = klant;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getSalt() {

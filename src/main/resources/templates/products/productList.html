@@ -7,15 +7,12 @@
         <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <title th:text="${title}">Welcome to the Kiteshop</title>
-        <title th:text="${titleIsTheTitleWeGive}">Welcome to the
-            Kiteshop</title>
+        
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     </head>
     <body>
-
-
 
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
@@ -41,14 +38,10 @@
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
-
-
-                    <li><a th:if= "${account.username == 'dummy'}" th:text = "Login" href="/login">
-                            <span 	class="glyphicon glyphicon-log-in"  ></span> </a></li>
+                    <li><a th:if= "${account.username == 'dummy'}"  href="/login">
+                            <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
-
-
-
+                
                 <ul class="nav navbar-nav navbar-right">
                     <li ><a th:if= "${account.username != 'dummy'}" th:text=" Welcome +' '+ *{account.username}" href="/login"></a></li>
                 </ul>
