@@ -54,7 +54,8 @@ public class AccountController {
         session.setAttribute("account", loginAccount);
 
         if (loginService.checkLogin(loginAccount.getUsername(), loginAccount.getPassword())) {
-            session.setAttribute("fullAccount", loginAccount);
+        	Account fullAccount = accountDao.findByUsername(loginAccount.getUsername());
+            session.setAttribute("fullAccount", fullAccount);
             return "redirect:/login/afterlogin";
         }
         return "redirect:/login/beforelogin";
