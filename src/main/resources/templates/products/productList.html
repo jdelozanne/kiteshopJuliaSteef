@@ -37,13 +37,15 @@
                                 class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 </ul>
 
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a th:if= "${account.username == 'dummy'}"  href="/login">
-                            <span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
+<!--                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:text= "${account.username == 'dummy'} ? ${account.username == null} : 'Login'"  href="/login">
+                            <span class="glyphicon glyphicon-log-in"></span></a></li>
+                </ul>-->
                 
                 <ul class="nav navbar-nav navbar-right">
-                    <li ><a th:if= "${account.username != 'dummy'}" th:text=" Welcome +' '+ *{account.username}" href="/login"></a></li>
+                    <li><a th:if="${account.username != 'dummy'} ? ${account.username != null}" th:text="${account.username}" href="/login">
+                            <span class="glyphicon glyphicon-log-in">Login</span>
+                        </a></li>
                 </ul>
             </div>
         </nav>

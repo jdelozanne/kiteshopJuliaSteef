@@ -53,7 +53,6 @@ public class AccountController {
         }
         session.setAttribute("account", loginAccount);
 
-        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
         if (loginService.checkLogin(loginAccount.getUsername(), loginAccount.getPassword())) {
             session.setAttribute("fullAccount", loginAccount);
             return "redirect:/login/afterlogin";
@@ -69,5 +68,18 @@ public class AccountController {
         HttpSession session = request.getSession();
         model.addAttribute("account", session.getAttribute("fullAccount"));
         return "login/afterlogin";
+    }
+    
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String showLogoutForm(Model model, HttpServletRequest request
+    ) {
+        model.addAttribute("title", "Logout");
+        model.addAttribute(new Account());
+        HttpSession session = request.getSession();
+        Account logoutAccount = new Account();
+        session.setAttribute("fullAccount", logoutAccount);
+        
+        model.addAttribute("account", session.getAttribute("fullAccount"));
+        return "login/logout";
     }
 }
