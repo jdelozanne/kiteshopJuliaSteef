@@ -36,15 +36,19 @@
                 <ul class="nav navbar-nav navbar-right">
 
 
-                    <li><a th:if= "${account.username == 'dummy'}" th:text = "Login" href="/login">
+
+
+                    <li><a th:text= "${account.username == 'dummy'} ? ${account.username == null} : 'Login'" href="/login">
+                            <span class="glyphicon glyphicon-log-in"  ></span> </a></li>
+                </ul>
+
+
+
+<!--                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a th:text= "${account.username != 'dummy'} ? ${account.username != null} : ${account.username}" href="/login">
                             <span 	class="glyphicon glyphicon-log-in"  ></span> </a></li>
-                </ul>
-
-
-
-                <ul class="nav navbar-nav navbar-right">
-                    <li ><a th:if= "${account.username != 'dummy'}" th:text=" Welcome +' '+ *{account.username}" href="/login"></a></li>
-                </ul>
+                </ul>-->
             </div>
         </nav>
         <br></br>
