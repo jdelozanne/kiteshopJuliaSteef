@@ -26,11 +26,18 @@
                     <li><a href="/bestelling/winkelmand"><span class="glyphicon glyphicon-shopping-cart"></span> Check your basket</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a th:if="${account.username == 'dummy'} ? ${account.username == null}"  href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a th:if="${account.username != 'dummy'}" href="/login"><span class="glyphicon glyphicon-log-in"></span> Welcome</a></li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:if="${account.username != 'dummy'}" href="/login/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a th:if="${account.username == 'dummy'} ? ${account.username == null}"  href="/login"><span class="glyphicon glyphicon-log-in"> Login</span></a></li>
+                </ul>
+                
             </div>
         </nav> 
         
