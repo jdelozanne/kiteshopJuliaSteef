@@ -2,15 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
- 
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><title th:text="${title}">Welcome to the Kiteshop</title>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title th:text="${title}">Welcome to the Kiteshop</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
     </head>
     <body>
-<img th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONE_team_rider_mitu_monteiro_0.jpg}" />  
-
+        <img th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONE_team_rider_mitu_monteiro_0.jpg}" />  
 
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">            <div class="container-fluid">
                 <div class="navbar-header">
@@ -25,22 +24,23 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/bestelling/winkelmand"><span class="glyphicon glyphicon-shopping-cart"></span> Check your basket</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a th:if="${account.username == 'dummy'} ? ${account.username == null}"  href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a th:if="${account.username != 'dummy'}" href="/login"><span class="glyphicon glyphicon-log-in"></span> Welcome</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a th:if="${account.username != 'dummy'}" href="/login/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a th:if="${account.username == 'dummy'} ? ${account.username == null}"  href="/login"><span class="glyphicon glyphicon-log-in"> Login</span></a></li>
-                </ul>
-                
+                <div th:if="${account.username == 'dummy'}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    </ul>
+                </div>
+                <div th:if="${account.username != 'dummy'}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login/logout"><span class="glyphicon glyphicon-user"></span> Log out</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ><a th:text=" Welcome +' '+ ${account.username}" href="/"><span class="glyphicon glyphicon-user"></span></a></li>
+                    </ul>
+                </div>
             </div>
         </nav> 
-        
-        
     </body>
 </html>

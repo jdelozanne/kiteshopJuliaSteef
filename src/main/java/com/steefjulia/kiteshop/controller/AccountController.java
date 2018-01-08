@@ -56,7 +56,7 @@ public class AccountController {
         if (loginService.checkLogin(loginAccount.getUsername(), loginAccount.getPassword())) {
         	Account fullAccount = accountDao.findByUsername(loginAccount.getUsername());
             session.setAttribute("fullAccount", fullAccount);
-            return "redirect:/login/afterlogin";
+            return "redirect:/home/index";
         }
         return "redirect:/login/beforelogin";
     }
@@ -68,7 +68,7 @@ public class AccountController {
         model.addAttribute(new Account());
         HttpSession session = request.getSession();
         model.addAttribute("account", session.getAttribute("fullAccount"));
-        return "login/afterlogin";
+        return "redirect: /home/index";
     }
     
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -78,6 +78,7 @@ public class AccountController {
         model.addAttribute(new Account());
         HttpSession session = request.getSession();
         Account logoutAccount = new Account();
+        logoutAccount.setUsername("dummy");
         session.setAttribute("fullAccount", logoutAccount);
         
         model.addAttribute("account", session.getAttribute("fullAccount"));
