@@ -14,93 +14,86 @@ import com.steefjulia.kiteshop.model.data.BestelRegelDao;
 import com.steefjulia.kiteshop.model.data.BestellingDao;
 import com.steefjulia.kiteshop.model.data.ProductDao;
 
-
 @Controller
 @RequestMapping("bestelling")
 public class BestellingController {
 
+    @Autowired
+    private BestellingDao bestellingDao;
+    @Autowired
+    private BestelRegelDao bestelRegelDao;
 
-	@Autowired 	private BestellingDao bestellingDao;
-	@Autowired 	private BestelRegelDao bestelRegelDao;
+    @RequestMapping(value = "winkelmand", method = RequestMethod.GET)
+    public String showBestelling(Model model, HttpServletRequest request) {
 
-	@RequestMapping(value = "winkelmand", method = RequestMethod.GET)
-	public String showBestelling(Model model, HttpServletRequest request) {
+        //to do als bestlling null is een nieuw e maken zodner regels en die erin stoppen voorkomet null pointer
+        HttpSession session = request.getSession();
+        Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
+        if (bestelling == null) {
+            bestelling = new Bestelling();
+        }
+        model.addAttribute("bestelling", bestelling);
+        model.addAttribute("bestelregels", bestelling.getBestelling());
+        //
+        return "bestelling/winkelmand";
+    }
 
-		
-		//to do als bestlling null is een nieuw e maken zodner regels en die erin stoppen voorkomet null pointer
-		HttpSession session = request.getSession();
-		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
+    @RequestMapping(value = "winkelmand", method = RequestMethod.POST)
+    public String gaNaarBetalen(HttpServletRequest request) {
 
-		model.addAttribute("bestelling", bestelling);
-		model.addAttribute("bestelregels", bestelling.getBestelling());
-		//
-		return "bestelling/winkelmand";
-	}
+        HttpSession session = request.getSession();
 
-	@RequestMapping(value = "winkelmand", method = RequestMethod.POST)
-	public String gaNaarBetalen(HttpServletRequest request) {
+        if (session.getAttribute("account") != null) {
+            return "redirect:/bestelling/afrekenen";
+        } else {
+            return "redirect:/bestelling/kiesInloggenOfNieuwAccoount";
+        }
 
-		HttpSession session = request.getSession();
+    }
 
+    @RequestMapping(value = "kiesInloggenOfNieuwAccoount", method = RequestMethod.GET)
+    public String showKiesInloggenOfAccountAanmaken(Model model, HttpServletRequest request) {
 
+        return "bestelling/kiesInloggenOfNieuwAccoount";
+    }
 
-		if(session.getAttribute("account")!=null){
-			return "redirect:/bestelling/afrekenen";
-		} else {
-			return "redirect:/bestelling/kiesInloggenOfNieuwAccoount";
-		}
+    @RequestMapping(value = "afrekenen", method = RequestMethod.GET)
+    public String showAfrekenen(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        model.addAttribute(session.getAttribute("bestelling"));
 
+        Account account = (Account) session.getAttribute("fullAccount");
+        System.out.println(account);
 
-	}
-	
-	@RequestMapping(value = "kiesInloggenOfNieuwAccoount", method = RequestMethod.GET)
-	public String showKiesInloggenOfAccountAanmaken(Model model, HttpServletRequest request) {
+        Klant klant = account.getKlant();
+        System.out.println(klant);
+        model.addAttribute(klant);
 
-	
-		return "bestelling/kiesInloggenOfNieuwAccoount";
-	}
+        return "bestelling/afrekenen";
+    }
 
-	@RequestMapping(value = "afrekenen", method = RequestMethod.GET)
-	public String showAfrekenen(Model model, HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		model.addAttribute(session.getAttribute("bestelling"));
+    @RequestMapping(value = "afrekenen", method = RequestMethod.POST)
+    public String gaNaarDankvoorUwAankoop(HttpServletRequest request) {
 
-		Account account = (Account) session.getAttribute("fullAccount");
-		System.out.println(account);
+        HttpSession session = request.getSession();
+        Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
+        Klant klant = (Klant) session.getAttribute("klant");
+        bestelling.setKlant(klant);
 
+        for (BestelRegel regel : bestelling.getBestelling()) {
+            bestelRegelDao.save(regel);
+        }
 
-		Klant klant = account.getKlant();
-		System.out.println(klant);
-		model.addAttribute(klant);
+        bestellingDao.save(bestelling);
 
-		return "bestelling/afrekenen";
-	}
+        return "redirect:/bestelling/bedanktVoorUwAankoop";
+    }
 
-	@RequestMapping(value = "afrekenen", method = RequestMethod.POST)
-	public String gaNaarDankvoorUwAankoop(HttpServletRequest request) {
+    @RequestMapping(value = "bedanktVoorUwAankoop", method = RequestMethod.GET)
+    public String showBedankVoorUwAankoop(Model model, HttpServletRequest request) {
+        model.addAttribute("welcome", "Welcome to the Kiteshop!");
 
-		HttpSession session = request.getSession();
-		Bestelling bestelling = (Bestelling) session.getAttribute("bestelling");
-		Klant klant =  (Klant) session.getAttribute("klant");
-		bestelling.setKlant(klant);
-		
-		for(BestelRegel regel : bestelling.getBestelling()){
-			bestelRegelDao.save(regel);
-		}
-		
-		bestellingDao.save(bestelling);
+        return "bestelling/bedanktVoorUwAankoop";
+    }
 
-
-
-		return "redirect:/bestelling/bedanktVoorUwAankoop";
-	}
-	
-	@RequestMapping(value = "bedanktVoorUwAankoop", method = RequestMethod.GET)
-	public String showBedankVoorUwAankoop(Model model, HttpServletRequest request) {
-		 model.addAttribute("welcome", "Welcome to the Kiteshop!");
-
-		return "bestelling/bedanktVoorUwAankoop";
-	}
-	
-	
 }
