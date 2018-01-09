@@ -12,6 +12,10 @@ import java.security.MessageDigest;
 import java.security.SecureRandom;
 import javax.xml.bind.DatatypeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +26,10 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    AccountDao accountDao;
+    private AccountDao accountDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
 
     public boolean accountExists(String gebruikersnaam) {
         boolean exists = true;
@@ -41,13 +48,14 @@ public class LoginService {
 		 * door het gehashte, en het orgineel bestaat dan dus niet meer
          */
 
-        String salthex = createSaltHex();
-        String hashedwachtwoord = createHashedPassword(salthex, account.getPassword());
-        account.setSalt(salthex);
-        account.setPassword(hashedwachtwoord);
-
+//        String salthex = createSaltHex();
+//        String hashedwachtwoord = createHashedPassword(salthex, account.getPassword());
+//        account.setSalt(salthex);
+//        account.setPassword(hashedwachtwoord);
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountDao.save(account);
     }
+    
 
     public boolean checkLogin(String gebruikersnaam, String gegevenWachtwoord) {
         Account currentAccount = accountDao.findByUsername(gebruikersnaam);
