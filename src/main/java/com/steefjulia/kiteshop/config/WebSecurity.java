@@ -20,14 +20,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  *
  * @author julia
  */
-@Configuration
 @EnableWebSecurity
-public class Security extends WebSecurityConfigurerAdapter {
+public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private DataSource dataSource;
-	
-	@Autowired
+  @Autowired
+  private DataSource dataSource;
+  @Autowired
+    private PasswordEncoder passwordEncoder;
+  
+  @Autowired
     private void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
        
        auth.jdbcAuthentication()
@@ -36,8 +37,8 @@ public class Security extends WebSecurityConfigurerAdapter {
                .authoritiesByUsernameQuery("select username, role from account where username=?") 
                .passwordEncoder(new BCryptPasswordEncoder());
     }
-	
-	    @Override
+  
+      @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
@@ -47,20 +48,19 @@ public class Security extends WebSecurityConfigurerAdapter {
                      .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/admin")
+                    .loginPage("/login")
                     .permitAll();
                 
                 
                 
     }
-	
-	
-	public PasswordEncoder passwordEncoder(){
-		PasswordEncoder encoder = new BCryptPasswordEncoder();
-		return encoder;
-	}
-	
+  
+  @Bean
+  public PasswordEncoder passwordEncoder(){
+    PasswordEncoder encoder = new BCryptPasswordEncoder();
+    return encoder;
+  }
+  
 }
 
-  
-
+ 

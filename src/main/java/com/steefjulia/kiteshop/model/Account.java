@@ -39,12 +39,9 @@ public class Account {
     @OneToOne
     @JoinColumn(name = "klantID")
     private Klant klant;
+    
+    private Role role;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
-
-    private String salt;
 
     public Account() {
     }
@@ -73,20 +70,14 @@ public class Account {
         this.klant = klant;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
+    
+    
 
 }

@@ -52,14 +52,15 @@ public class KlantenController {
             return "klanten/addAccount";
         }
 
-        if (loginService.accountExists(newAccount.getUsername())) {
-            model.addAttribute("error", "user already exists, try again");
-            model.addAttribute("title", "Register");
-            return "klanten/addAccount";
-        }
+//        if (loginService.accountExists(newAccount.getUsername())) {
+//            model.addAttribute("error", "user already exists, try again");
+//            model.addAttribute("title", "Register");
+//            return "klanten/addAccount";
+//        }
 
         HttpSession session = request.getSession();
         session.setAttribute("account", newAccount);
+        loginService.createAccount(newAccount);
         return "redirect:/klanten/addCustomer";
     }
 
@@ -116,7 +117,7 @@ public class KlantenController {
         account.setKlant(klant);
         adresDao.save(newAdres);
         klantenDao.save(klant);
-        loginService.createAccount(account);
+        //loginService.createAccount(account);
         return "redirect:/login/afterlogin";
     }
 

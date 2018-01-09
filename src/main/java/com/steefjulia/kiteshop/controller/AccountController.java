@@ -53,11 +53,11 @@ public class AccountController {
         }
         session.setAttribute("account", loginAccount);
 
-        if (loginService.checkLogin(loginAccount.getUsername(), loginAccount.getPassword())) {
-        	Account fullAccount = accountDao.findByUsername(loginAccount.getUsername());
-            session.setAttribute("fullAccount", fullAccount);
-            return "redirect:/home/index";
-        }
+//        if (loginService.checkLogin(loginAccount.getUsername(), loginAccount.getPassword())) {
+//        	Account fullAccount = accountDao.findByUsername(loginAccount.getUsername());
+//            session.setAttribute("fullAccount", fullAccount);
+//            return "redirect:/home/index";
+//        }
         return "redirect:/login/beforelogin";
     }
 
