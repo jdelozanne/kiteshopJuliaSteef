@@ -44,7 +44,6 @@ public class LoginService {
 
     public void createAccount(Account account) {
         account.setPassword(passwordEncoder.encode(account.getPassword()));
-        account.setRole("admin");
         accountDao.save(account);
     }
 }

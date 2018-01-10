@@ -9,10 +9,14 @@ import com.steefjulia.kiteshop.model.Account;
 
 import com.steefjulia.kiteshop.model.data.AccountDao;
 import com.steefjulia.kiteshop.model.service.LoginService;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -71,17 +75,26 @@ public class AccountController {
         return "redirect: /home/index";
     }
     
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String showLogoutForm(Model model, HttpServletRequest request
-    ) {
-        model.addAttribute("title", "Logout");
-        model.addAttribute(new Account());
-        HttpSession session = request.getSession();
-        Account logoutAccount = new Account();
-        logoutAccount.setUsername("dummy");
-        session.setAttribute("fullAccount", logoutAccount);
-        
-        model.addAttribute("account", session.getAttribute("fullAccount"));
-        return "login/logout";
+//    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+//    public String showLogoutForm(Model model, HttpServletRequest request
+//    ) {
+//        model.addAttribute("title", "Logout");
+//        model.addAttribute(new Account());
+//        HttpSession session = request.getSession();
+//        Account logoutAccount = new Account();
+//        logoutAccount.setUsername("dummy");
+//        session.setAttribute("fullAccount", logoutAccount);
+//        
+//        model.addAttribute("account", session.getAttribute("fullAccount"));
+//        return "login/logout";
+//    }
+    
+    @RequestMapping(value="/logout", method = RequestMethod.GET)
+public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (auth != null){    
+        new SecurityContextLogoutHandler().logout(request, response, auth);
     }
+    return "redirect:/login/logout";
+}
 }

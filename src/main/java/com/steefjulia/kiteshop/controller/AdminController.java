@@ -8,11 +8,15 @@ package com.steefjulia.kiteshop.controller;
 import com.steefjulia.kiteshop.model.Account;
 import com.steefjulia.kiteshop.model.Product;
 import com.steefjulia.kiteshop.model.data.ProductDao;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -31,29 +35,28 @@ public class AdminController {
     @Autowired
     private ProductDao productdao;
 
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public String showLoginForm(Model model) {
+//        model.addAttribute("title", "Login as admin");
+//        model.addAttribute(new Account());
+//        return "admin/loginAsAdmin";
+//    }
+//    
+//    @RequestMapping(value = "", method = RequestMethod.POST)
+//    public String processLoginForm(@ModelAttribute Account newAccount, Errors errors, Model model, HttpServletRequest request) {
+//
+//        HttpSession session = request.getSession();
+//        session.setAttribute("account", newAccount);
+//
+//        Account account = (Account) session.getAttribute("account");
+//        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
+//        //Account login = accountDao.findByUsername(account.getUsername());
+//        if (account.getPassword().equals("admin000")&&account.getUsername().equals("admin")){
+//            return "redirect:/admin/homeAdmin";
+//        }
+//        return "redirect:/admin/loginAsAdmin";
+//    }
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String showLoginForm(Model model) {
-        model.addAttribute("title", "Login as admin");
-        model.addAttribute(new Account());
-        return "admin/loginAsAdmin";
-    }
-    
-    @RequestMapping(value = "", method = RequestMethod.POST)
-    public String processLoginForm(@ModelAttribute Account newAccount, Errors errors, Model model, HttpServletRequest request) {
-
-        HttpSession session = request.getSession();
-        session.setAttribute("account", newAccount);
-
-        Account account = (Account) session.getAttribute("account");
-        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
-        //Account login = accountDao.findByUsername(account.getUsername());
-        if (account.getPassword().equals("admin000")&&account.getUsername().equals("admin")){
-            return "redirect:/admin/homeAdmin";
-        }
-        return "redirect:/admin/loginAsAdmin";
-    }
-
-    @RequestMapping(value = "homeAdmin", method = RequestMethod.GET)
     public String showHomeAdmin(Model model) {
         return "admin/homeAdmin";
     }
@@ -71,7 +74,7 @@ public class AdminController {
         session.setAttribute("product", fullProduct);
         return "redirect:/admin/productDetails";
     }
-    
+
 //    @RequestMapping(value = "productsForAdmin", method = RequestMethod.POST, params={"delete"})
 //    public String askProductDeletePage(@ModelAttribute @Valid Product choosenProduct, Errors errors, Model model, HttpServletRequest request) {
 //        Product fullProduct = productdao.findOne(choosenProduct.getProductID());
@@ -79,7 +82,6 @@ public class AdminController {
 //        session.setAttribute("product", fullProduct);
 //        return "redirect:/admin/deleteProduct";
 //    }
-
     @RequestMapping(value = "addProduct", method = RequestMethod.GET)
     public String showAddProductsForm(Model model) {
         model.addAttribute("title", "Add a new product");
@@ -103,12 +105,12 @@ public class AdminController {
 
     @RequestMapping(value = "productDetails", method = RequestMethod.GET)
     public String showChangeProductsForm(Model model, HttpServletRequest request) {
-      // model.addAttribute(new Product());
+        // model.addAttribute(new Product());
         model.addAttribute("title", "Change the product");
-      HttpSession session = request.getSession();
+        HttpSession session = request.getSession();
         Product product = (Product) session.getAttribute("product");
 
-       model.addAttribute("product", product);
+        model.addAttribute("product", product);
         return "admin/productDetails";
     }
 
@@ -119,11 +121,11 @@ public class AdminController {
             model.addAttribute("title", "Add a new product");
             return "admin/productDetails";
         }
-                
+
         productdao.save(changedProduct);
         return "redirect:/admin/productsForAdmin";
     }
-    
+
     @RequestMapping(value = "deleteProduct", method = RequestMethod.GET)
     public String showdeleteProductForm(Model model, HttpServletRequest request) {
         model.addAttribute("title", "Deleting product");
@@ -132,6 +134,7 @@ public class AdminController {
         model.addAttribute("product", product);
         return "admin/deleteProduct";
     }
+
     @RequestMapping(value = "deleteProduct", method = RequestMethod.POST)
     public String processDeleteProductForm(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -140,4 +143,12 @@ public class AdminController {
         return "redirect:/admin/productsForAdmin";
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return "redirect:/home/index";
+    }
 }

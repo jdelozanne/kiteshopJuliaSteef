@@ -60,7 +60,7 @@ public class KlantenController {
 
         HttpSession session = request.getSession();
         session.setAttribute("account", newAccount);
-        loginService.createAccount(newAccount);
+        //loginService.createAccount(newAccount);
         return "redirect:/klanten/addCustomer";
     }
 
@@ -117,8 +117,8 @@ public class KlantenController {
         account.setKlant(klant);
         adresDao.save(newAdres);
         klantenDao.save(klant);
-        //loginService.createAccount(account);
-        return "redirect:/login/afterlogin";
+        loginService.createAccount(account);
+        return "redirect:/home/index";
     }
 
 
