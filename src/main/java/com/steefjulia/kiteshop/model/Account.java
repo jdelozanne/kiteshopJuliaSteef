@@ -40,7 +40,7 @@ public class Account {
     @JoinColumn(name = "klantID")
     private Klant klant;
     
-    private Role role;
+    private String rol;
 
 
     public Account() {
@@ -70,12 +70,12 @@ public class Account {
         this.klant = klant;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+        return rol;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRole(String role) {
+        this.rol = role;
     }
     
     

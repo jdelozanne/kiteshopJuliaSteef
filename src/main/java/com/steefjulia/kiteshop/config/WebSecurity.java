@@ -23,44 +23,41 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private DataSource dataSource;
-  @Autowired
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
     private PasswordEncoder passwordEncoder;
-  
-  @Autowired
+
+    @Autowired
     private void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-       
-       auth.jdbcAuthentication()
-               .dataSource(dataSource)
-               .usersByUsernameQuery("select username, password, enabled from account where username=?")
-               .authoritiesByUsernameQuery("select username, role from account where username=?") 
-               .passwordEncoder(new BCryptPasswordEncoder());
+
+        auth.jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("select username, password, true from account where username=?")
+                .authoritiesByUsernameQuery("select username, role from account where username=?")
+                
+                .passwordEncoder(new BCryptPasswordEncoder());
     }
-  
-      @Override
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                    .authorizeRequests()
-                     .antMatchers("/", "/home", "/home/index", "/products/*", "/bestelling/*", "/login/**", "/klanten/*").permitAll()
-                .antMatchers("/admin/*").access( "hasRole('ADMIN')")
-                     .anyRequest().authenticated()
+                .authorizeRequests()
+                .antMatchers("/", "/home", "/home/index", "/products/*", "/bestelling/*", "/login/**", "/klanten/*").permitAll()
+                .antMatchers("/admin/*").access("hasRole('ROLE_ADMIN')")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login")
-                    .permitAll();
-                
-                
-                
-    }
-  
-  @Bean
-  public PasswordEncoder passwordEncoder(){
-    PasswordEncoder encoder = new BCryptPasswordEncoder();
-    return encoder;
-  }
-  
-}
+                .loginPage("/login")
+                .permitAll();
 
- 
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder;
+    }
+
+}
