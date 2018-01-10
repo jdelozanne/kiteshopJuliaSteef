@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.steefjulia.kiteshop.model.*;
+import com.steefjulia.kiteshop.model.data.AccountDao;
 import com.steefjulia.kiteshop.model.data.BestelRegelDao;
 import com.steefjulia.kiteshop.model.data.BestellingDao;
 import com.steefjulia.kiteshop.model.data.ProductDao;
+import com.steefjulia.kiteshop.model.service.AccountService;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 @RequestMapping("bestelling")
@@ -22,6 +27,10 @@ public class BestellingController {
     private BestellingDao bestellingDao;
     @Autowired
     private BestelRegelDao bestelRegelDao;
+    @Autowired
+    private AccountService accountService;
+    @Autowired
+    private AccountDao accountDao;
 
     @RequestMapping(value = "winkelmand", method = RequestMethod.GET)
     public String showBestelling(Model model, HttpServletRequest request) {
@@ -32,25 +41,25 @@ public class BestellingController {
         }
         model.addAttribute("bestelling", bestelling);
         model.addAttribute("bestelregels", bestelling.getBestelling());
-   
+        model.addAttribute("account", accountService.checkUsername());
+
         return "bestelling/winkelmand";
     }
 
     @RequestMapping(value = "winkelmand", method = RequestMethod.POST)
     public String gaNaarBetalen(HttpServletRequest request) {
 
-        HttpSession session = request.getSession();
-
-        if (session.getAttribute("account") != null) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
             return "redirect:/bestelling/afrekenen";
         } else {
             return "redirect:/bestelling/kiesInloggenOfNieuwAccoount";
         }
-
     }
 
     @RequestMapping(value = "kiesInloggenOfNieuwAccoount", method = RequestMethod.GET)
     public String showKiesInloggenOfAccountAanmaken(Model model, HttpServletRequest request) {
+        model.addAttribute("account", accountService.checkUsername());
 
         return "bestelling/kiesInloggenOfNieuwAccoount";
     }
@@ -60,13 +69,11 @@ public class BestellingController {
         HttpSession session = request.getSession();
         model.addAttribute(session.getAttribute("bestelling"));
 
-        Account account = (Account) session.getAttribute("fullAccount");
-        System.out.println(account);
-
+        Account account = accountService.checkUsername();
+        accountDao.findByUsername(account.getUsername());
         Klant klant = account.getKlant();
-        System.out.println(klant);
+        session.setAttribute("klant", klant);
         model.addAttribute(klant);
-
         return "bestelling/afrekenen";
     }
 

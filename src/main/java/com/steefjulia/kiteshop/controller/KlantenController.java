@@ -19,7 +19,7 @@ import com.steefjulia.kiteshop.model.data.AdresDao;
 import com.steefjulia.kiteshop.model.data.KlantenDao;
 import com.steefjulia.kiteshop.model.*;
 import com.steefjulia.kiteshop.model.data.AccountDao;
-import com.steefjulia.kiteshop.model.service.LoginService;
+import com.steefjulia.kiteshop.model.service.AccountService;
 
 @Controller
 @RequestMapping("klanten")
@@ -32,7 +32,7 @@ public class KlantenController {
     @Autowired
     private AccountDao accountDao;
     @Autowired
-    private LoginService loginService;
+    private AccountService accountService;
 
     @RequestMapping(value = "addAccount", method = RequestMethod.GET)
     public String displayAddAccountForm(Model model) {
@@ -52,15 +52,9 @@ public class KlantenController {
             return "klanten/addAccount";
         }
 
-//        if (loginService.accountExists(newAccount.getUsername())) {
-//            model.addAttribute("error", "user already exists, try again");
-//            model.addAttribute("title", "Register");
-//            return "klanten/addAccount";
-//        }
-
         HttpSession session = request.getSession();
         session.setAttribute("account", newAccount);
-        //loginService.createAccount(newAccount);
+        
         return "redirect:/klanten/addCustomer";
     }
 
@@ -117,7 +111,7 @@ public class KlantenController {
         account.setKlant(klant);
         adresDao.save(newAdres);
         klantenDao.save(klant);
-        loginService.createAccount(account);
+        accountService.createAccount(account);
         return "redirect:/home/index";
     }
 

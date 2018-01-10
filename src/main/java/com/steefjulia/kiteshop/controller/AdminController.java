@@ -35,27 +35,6 @@ public class AdminController {
     @Autowired
     private ProductDao productdao;
 
-//    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public String showLoginForm(Model model) {
-//        model.addAttribute("title", "Login as admin");
-//        model.addAttribute(new Account());
-//        return "admin/loginAsAdmin";
-//    }
-//    
-//    @RequestMapping(value = "", method = RequestMethod.POST)
-//    public String processLoginForm(@ModelAttribute Account newAccount, Errors errors, Model model, HttpServletRequest request) {
-//
-//        HttpSession session = request.getSession();
-//        session.setAttribute("account", newAccount);
-//
-//        Account account = (Account) session.getAttribute("account");
-//        //hier gebruikmaken van servicelayer om hash te maken van password en te checken
-//        //Account login = accountDao.findByUsername(account.getUsername());
-//        if (account.getPassword().equals("admin000")&&account.getUsername().equals("admin")){
-//            return "redirect:/admin/homeAdmin";
-//        }
-//        return "redirect:/admin/loginAsAdmin";
-//    }
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String showHomeAdmin(Model model) {
         return "admin/homeAdmin";
@@ -75,13 +54,6 @@ public class AdminController {
         return "redirect:/admin/productDetails";
     }
 
-//    @RequestMapping(value = "productsForAdmin", method = RequestMethod.POST, params={"delete"})
-//    public String askProductDeletePage(@ModelAttribute @Valid Product choosenProduct, Errors errors, Model model, HttpServletRequest request) {
-//        Product fullProduct = productdao.findOne(choosenProduct.getProductID());
-//        HttpSession session = request.getSession();
-//        session.setAttribute("product", fullProduct);
-//        return "redirect:/admin/deleteProduct";
-//    }
     @RequestMapping(value = "addProduct", method = RequestMethod.GET)
     public String showAddProductsForm(Model model) {
         model.addAttribute("title", "Add a new product");

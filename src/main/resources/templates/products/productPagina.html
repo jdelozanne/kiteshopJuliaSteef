@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <head>
+        <link rel="stylesheet"
+              href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
 
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<title th:text="${title}">Welcome to the Kiteshop</title>
+        <script
+        src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title th:text="${title}">Welcome to the Kiteshop</title>
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-</head>
-<body>
+    </head>
+    <body>
 
-	  
+
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">            <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/home/index" th:text="${welcome}">default title</a>
@@ -28,48 +28,58 @@
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/bestelling/winkelmand"><span class="glyphicon glyphicon-shopping-cart"></span> Check your basket</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                </ul>
+                <div th:if="${account.username == 'dummy'}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/klanten/addAccount"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    </ul>
+                </div>
+                <div th:if="${account.username != 'dummy'}">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login/logout"><span class="glyphicon glyphicon-user"></span> Log out</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li ><a th:text=" Welcome +' '+ ${account.username}" href="/"><span class="glyphicon glyphicon-user"></span></a></li>
+                    </ul>
+                </div>
             </div>
         </nav> 
-	<br></br>
-	<br></br>
-	<br></br>
+        <br></br>
+        <br></br>
+        <br></br>
 
-	<div style="width: 600px; margin: 0 auto;">
-		<img th:src="@{${product.urlAfbeelding}}" />
-	</div>
-
-
-	<div style="width: 600px; margin: 0 auto;">
-
-		<h3 th:text="${product.naam}" />
-
-		<p th:text="${product.omschrijving}"></p>
-
-		<ul>
-			<li th:text="${'Prijs: '+product.prijs}" />
-			<li th:text="${'Voorraad: '+product.voorraad}" />
-
-		</ul>
+        <div style="width: 600px; margin: 0 auto;">
+            <img th:src="@{${product.urlAfbeelding}}" />
+        </div>
 
 
+        <div style="width: 600px; margin: 0 auto;">
+
+            <h3 th:text="${product.naam}" />
+
+            <p th:text="${product.omschrijving}"></p>
+
+            <ul>
+                <li th:text="${'Prijs: '+product.prijs}" />
+                <li th:text="${'Voorraad: '+product.voorraad}" />
+
+            </ul>
 
 
 
-		<form method="post" style="max-width: 600px;"
-			th:object="${bestelregel}">
-			<input type="hidden" th:value="${product.productID}" name="product" />
-			<input dir="rtl" type="number" name="aantal" /> 
-			<input type="submit" value="Plaats in Winkelmand" />
-
-		</form>
-	</div>
 
 
-</body>
+            <form method="post" style="max-width: 600px;"
+                  th:object="${bestelregel}">
+                <input type="hidden" th:value="${product.productID}" name="product" />
+                <input dir="rtl" type="number" name="aantal" /> 
+                <input type="submit" value="Plaats in Winkelmand" />
+
+            </form>
+        </div>
+
+
+    </body>
 </html>

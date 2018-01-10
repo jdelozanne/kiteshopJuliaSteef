@@ -5,9 +5,9 @@
  */
 package com.steefjulia.kiteshop.controller;
 
-import com.steefjulia.kiteshop.model.Account;
-import javax.servlet.http.HttpSession;
+import com.steefjulia.kiteshop.model.service.AccountService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,32 +21,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("")
 public class HomeController {
 
+    @Autowired
+    private AccountService accountService;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String directToHomepage(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("fullAccount");
-        if (account == null) {
-            account = new Account();
-            account.setUsername("dummy");
-        }
-
-        model.addAttribute("account", account);
+        
+        model.addAttribute("account", accountService.checkUsername());
 
         return "redirect:/home/index";
     }
 
     @RequestMapping(value = "home/index", method = RequestMethod.GET)
-    public String giveHomepage(Model model, HttpServletRequest request) {
-        model.addAttribute("welcome", "Welcome to the Kiteshop!");
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("fullAccount");
-        if (account == null) {
-            account = new Account();
-            account.setUsername("dummy");
-        }
+    public String giveToHomepage(Model model, HttpServletRequest request) {
 
-        model.addAttribute("account", account);
+        model.addAttribute("account", accountService.checkUsername());
 
         return "home/index";
     }
+
 }

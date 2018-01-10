@@ -14,9 +14,13 @@ import javax.validation.Valid;
 
 import com.steefjulia.kiteshop.model.*;
 import com.steefjulia.kiteshop.model.data.ProductDao;
+import com.steefjulia.kiteshop.model.service.AccountService;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -35,18 +39,13 @@ public class ProductController {
 
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private AccountService accountService;
 
     @RequestMapping(value = "productList", method = RequestMethod.GET)
     public String showAllProducts(Model model, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("fullAccount");
-        if (account == null) {
-            account = new Account();
-            account.setUsername("dummy");
-        }
-
-        model.addAttribute("account", account);
-
+        
+        model.addAttribute("account", accountService.checkUsername());
         model.addAttribute(new Product());
         model.addAttribute("products", productDao.findAll());
         return "products/productList";
@@ -72,8 +71,10 @@ public class ProductController {
 
         HttpSession session = request.getSession();
         Product productVoorProductpagina = (Product) session.getAttribute("product");
-        System.out.println(productVoorProductpagina);
+        
         model.addAttribute("product", productVoorProductpagina);
+        
+        model.addAttribute("account", accountService.checkUsername());
         return "products/productPagina";
     }
 
