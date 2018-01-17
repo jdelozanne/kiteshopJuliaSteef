@@ -37,6 +37,7 @@ function checkPass()
         //The passwords do not match.
         //Set the color to the bad color and
         //notify the user.
+        permission.setAttribute("disabled", "disabled");
         pass2.style.backgroundColor = badColor;
         message.style.color = badColor;
         message.innerHTML = "Passwords Do Not Match!";
