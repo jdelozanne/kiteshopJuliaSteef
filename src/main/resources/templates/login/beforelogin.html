@@ -6,6 +6,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><title th:text="${title}">Welcome to the Kiteshop</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
     </head>
     <body class="container">
       
@@ -47,8 +48,10 @@
                 <input type="password" class="form-control" th:field="*{password}" />
                    <span th:errors="*{password}" class="error"></span>         
             </div>
+            
             <input type="submit" value="Login" />      
         </form>
-        
+ 
+
     </body>
 </html>

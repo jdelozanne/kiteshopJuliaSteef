@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
         <title th:text="${title}">Welcome to the Kiteshop</title>
         <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
+<script type="text/javascript" src="/js/controller.js"></script>
     </head>
     <body>
         <img th:src="@{http://www.f-onekites.com/Home/103/Team/Rider/F_ONE_team_rider_mitu_monteiro_0.jpg}" />  
@@ -42,7 +42,12 @@
                 </div>
             </div>
         </nav> 
+        <br></br>
+        <button onclick="myFunction()">Try it</button>
+       
+        <p id="demo"></p>
 
+       
 
     </body>
 </html>
