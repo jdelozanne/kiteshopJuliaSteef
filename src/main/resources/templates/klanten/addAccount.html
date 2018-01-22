@@ -58,18 +58,21 @@
         <form method="post" style="max-width:600px;" th:object="${account}">
             <div class="form-group">
                 <label th:for="username">Username</label>
-                <input class="form-control" th:field="*{username}" />
+                <input  class="form-control" th:field="*{username}" />
                 <span th:errors="*{username}" class="error"></span>
                 <span th:if="${error}" th:text="${error}" style="color:red"></span>
             </div>
             <div class="form-group">
                 <label th:for="password">Password</label>
-                <input name="pass1" type="password" id="pass1" class="form-control" th:field="*{password}" />
-                <span th:errors="*{password}" class="error"></span>
+               
+                <input name="pass1" type="password" id="pass1" class="form-control" th:field="*{password}" onkeyup="checkValidation()"/>
+                <span  th:errors="*{password}" class="error"></span>
+                <span id="validationMessage" class="confirmMessage"></span>
+
             </div>
             <div class="form-group">
                 <label th:for="pass2">Confirm Password:</label>
-                <input name="pass2" id="pass2" onkeyup="checkPass()" class="form-control" type="password"/>
+                <input name="pass2" id="pass2" disabled="disabled" onkeyup="checkPass()" class="form-control" type="password"/>
                 <span id="confirmMessage" class="confirmMessage"></span>
             </div>
             <input type="submit" id="register" disabled="disabled" value="Save and continue" />

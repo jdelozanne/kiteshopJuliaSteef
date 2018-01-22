@@ -40,12 +40,12 @@
         <form   method="post" style="max-width:600px;" th:object ="${account}">
             <div class="form-group">
                 <label th:for="username">Username</label>
-                <input class="form-control" th:field="*{username}" />
+                <input class="form-control"  placeholder="Username" th:field="*{username}" />
                 <span th:errors="*{username}" class="error"></span>
             </div>
             <div class="form-group">
                 <label th:for="password">Password</label>
-                <input type="password" class="form-control" th:field="*{password}" />
+                <input id= "password" placeholder="Password"  type="password" class="form-control" th:field="*{password}" />
                    <span th:errors="*{password}" class="error"></span>         
             </div>
             
